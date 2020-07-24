@@ -103,7 +103,8 @@ namespace oitest.Scripts.Managers
         /// </summary>
         void Update()
         {
-            CountdownToSpawn();
+            if(!GameManager.Instance.GameDone)
+                CountdownToSpawn();
         }
 
         #endregion

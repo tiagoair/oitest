@@ -105,7 +105,7 @@ namespace oitest.Scripts.Controllers
             {
                 MovePlayer();
                 CheckTalkableInRange();
-             
+         
                 // The Collecting state refers to when the player isn't near a talking NPC
                 if (_currentInteractState == PlayerInteractState.Collecting)
                 {
@@ -118,10 +118,22 @@ namespace oitest.Scripts.Controllers
                 {
                     TalkWithNPC();
                 }
+                
             }
             else
             {
                 StoreBrowsing();
+            }
+
+            // Cheat Code - Press X for CASH
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                currencies = new[] {10, 10, 10, 10, 10};
+                for (var i = 0; i < currencies.Length; i++)
+                {
+                    int currency = currencies[i];
+                    GameObserverManager.OnUpdateCurrencies((CurrencyType) i, currency);
+                }
             }
             
         }

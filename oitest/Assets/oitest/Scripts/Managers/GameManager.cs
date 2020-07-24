@@ -17,6 +17,13 @@ namespace oitest.Scripts.Managers
 
         // Instance declaration for the singleton pattern
         public static GameManager Instance { get; protected set; }
+        
+        // Accessor for game done
+        public bool GameDone
+        {
+            get => _gameDone;
+            set => _gameDone = value;
+        }
 
         #endregion
         
@@ -34,6 +41,9 @@ namespace oitest.Scripts.Managers
 
         // Random variable for the random generation of Items
         private Random _myRng;
+
+        // Game state, when it end it is set to true
+        private bool _gameDone;
 
         #endregion
         

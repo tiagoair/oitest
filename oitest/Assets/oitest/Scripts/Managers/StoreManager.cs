@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using oitest.Scripts.Mono;
 using oitest.Scripts.ScriptableObjects;
 using UnityEngine;
@@ -93,23 +91,15 @@ namespace oitest.Scripts.Managers
         {
             if (storeId == myId)
             {
-                if (status)
+                storeReference.SetActive(status);
+                GameObserverManager.OnBrowsingToggle(status);
+                if (_numItems > 0)
                 {
-                    // Even if the request for the window to be shown arrives, it is only executed if 
-                    // there is at least one item in it.
-                    if (_numItems > 0)
-                    {
-                        storeReference.SetActive(true);
-                        EventSystem.current.SetSelectedGameObject(null);
-                        _storeItems[0].GetComponent<Selectable>().Select();
-                        GameObserverManager.OnBrowsingToggle(true);
-                    }
+                    EventSystem eventSystem = EventSystem.current;
+                    eventSystem.SetSelectedGameObject(null);
+                    eventSystem.SetSelectedGameObject(_storeItems[0]);
                 }
-                else
-                {
-                    storeReference.SetActive(false);
-                    GameObserverManager.OnBrowsingToggle(false);
-                }
+                
             }
         }
         
@@ -117,7 +107,7 @@ namespace oitest.Scripts.Managers
         /// Handles a buying request, if the received player currencies has the amount required to buy the selected
         /// product, the purchase is made and the item is delivered to the player through the Game Observer Manager,
         /// as well as removing the item from the store list along with the change for that purchase,
-        /// it also selects the leftmost item if there are any left, if there aren't, then the store window is closed.
+        /// it also selects the leftmost item if there are any left, if there aren't then the game ends.
         /// </summary>
         /// <param name="storeId">The id of the store for the purchase to be made on</param>
         /// <param name="playerCurrencies">The wallet of the player</param>
@@ -142,7 +132,7 @@ namespace oitest.Scripts.Managers
                     }
                     else
                     {
-                        OnStoreViewToggle(myId, false);
+                        GameManager.Instance.GameDone = true;
                     }
                     
                 }
